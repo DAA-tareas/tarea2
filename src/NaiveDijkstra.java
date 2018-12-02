@@ -6,4 +6,6 @@ public class NaiveDijkstra {
     double[] dist;
     boolean[] marcado;
 
+
+
 }
