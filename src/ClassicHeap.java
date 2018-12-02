@@ -8,13 +8,6 @@
      * and putting the new element in the root and sifting down, avoiding a sifting up step compared to pop (sift down of last element) followed by push (sift up of new element).
  */
 public class ClassicHeap {
-    // Estas variables son de Dijkstra
-    //private int distances[];
-    //private boolean[] marked;
-
-    public int distances[];
-    public boolean[] marked;
-
     // Variables internas
     private int heap[];
 
@@ -22,12 +15,6 @@ public class ClassicHeap {
     public ClassicHeap(int[] elements){
         this.heap = new int[elements.length];
         //this.heapify(elements)
-        /*
-        this.distances = new int[numElements];
-        this.distances[0] = 0; // Distancia a origen
-
-        this.marked = new boolean[numElements];
-        */
     }
 
     // sift up
@@ -37,7 +24,7 @@ public class ClassicHeap {
     //heapify
 
     public static void main(String[] args){
-        ClassicHeap nd = new ClassicHeap(10);
+        //ClassicHeap nd = new ClassicHeap(10);
         /*
         System.out.println(nd.distances.length);
         System.out.println(nd.marked.length);
