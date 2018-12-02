@@ -2,18 +2,11 @@ import java.util.Random;
 
 public class Grafo {
 
-    private int[] vertex;
     private float[][] edges;
 
     public Grafo(int n, int e) {
         // Initialize arrays
-        vertex = new int[n];
         edges = new float[e][3];
-
-        // Save al vertex
-        for (int i = 0; i < n; i++) {
-            vertex[i] = i;
-        }
 
         // Random float between 0 inclusive and 1 exclusive
         Random rand = new Random();
@@ -62,10 +55,6 @@ public class Grafo {
             }
         }
 
-    }
-
-    public int[] getVertex() {
-        return vertex;
     }
 
     public float[][] getEdges() {
