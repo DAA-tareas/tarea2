@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Dijkstra con Heap Clasico
  * Children of the node at position n would be at positions 2n + 1 and 2n + 2 in a zero-based array.
@@ -10,21 +12,151 @@
 public class ClassicHeap {
     // Variables internas
     private int heap[];
+    private int index;
 
     // Constructor
     public ClassicHeap(int[] elements){
+        this.index = 0;
         this.heap = new int[elements.length];
-        //this.heapify(elements)
+        this.heapify(elements, elements.length);
     }
 
-    // sift up
+    /**
+     * Inserta los elements en el heap
+     * @param elements
+     */
+    public void heapify(int[] elements, int ind){
+        for(int i=0; i < ind; i++){
+            this.insertKey(elements[i]);
+        }
+    }
 
-    // sift down
+    /**
+     * Inserta val en el indice 'index' del heap
+     * @param val
+     */
+    private void insertKey(int val){
+        //Chequear capacidad (Ya sabemos el tamaño del heap)
+        int i = this.index;
+        this.heap[i] = val;
 
-    //heapify
+        //Mientras que el padre sea mayor al hijo
+        while(i != 0 && heap[(i-1)/2] > heap[i]){
+            //Cambiarlos
+            this.swap((i-1)/2, i);
+            //Actualizar indice al padre
+            i = (i-1)/2;
+        }
+
+        //Aumentar indice donde insertar
+        this.index++;
+    }
+
+    /**
+     * Intercambia los valores de los indices i por el j
+     * @param i indice a intercambiar
+     * @param j indice a intercambiar
+     */
+    private void swap(int i, int j){
+        int tmp = this.heap[i];
+        this.heap[i] = heap[j];
+        this.heap[j] = tmp;
+    }
+
+    /**
+     * Extrae el minimo y reordena el heap
+     * @return el minimo del heap
+     */
+    public int extractMin(){
+        int min = this.heap[0];
+        //Reemplazar raiz con el ultimo elemento apuntado por index
+        this.heap[0] = this.heap[this.index - 1];
+        this.heap[this.index - 1] = Integer.MAX_VALUE;
+        // Chequear que no sea negativo
+        if(this.index > 0) {
+            this.index--;
+            //this.heapify(this.heap, this.index);
+        }else
+            System.out.println("No hay mas elementos");
+        int i = 0;
+        // Mientras el elemento sea mayor a alguno de sus hijos
+        while(i < this.index){
+            int j = 0;
+            // Si el hijo derecho no esta dentro de los elementos restante, el hijo izquierdo es el min
+            if((2*i + 2) > (this.index - 1))
+                j = 2*i + 1;
+            // Si el hijo izquierdo no esta dentro de los elementos restantes, no hay swap
+            if((2*i + 1) > (this.index - 1))
+                break;
+            // Si ambos hijos estan dentro de los elementos, buscar el minimo
+            else{
+                if (this.heap[2 * i + 1] > this.heap[2 * i + 2]) {
+                    j = 2 * i + 2;
+                } else {
+                    j = 2 * i + 1;
+                }
+            }
+
+            if(this.heap[i] > this.heap[j]) {
+                // Intercambiar con el menor
+                this.swap(i, j);
+                i = j;
+            }else{
+                break;
+            }
+        }
+
+        return min;
+    }
+
+    /**
+     * Inserta el valor newVal en heap[ind] donde newVal < heap[ind]
+     * @param ind: Indice a cambiar
+     * @param newVal: Valor a insertar en heap[ind]
+     */
+    public void decreaseKey(int ind, int newVal){
+        // Cambiar el valor
+        this.heap[ind] = newVal;
+        // Cambiar elementos que rompan el invariante
+        // Mientras que el padre sea mayor que el hijo ingresado
+        while(ind > 0 && this.heap[(ind-1)/2] > heap[ind]){
+            swap(ind, (ind-1)/2);
+            ind = (ind-1)/2;
+        }
+    }
+
+    public int[] getHeap(){
+        return this.heap;
+    }
+
+    public int getIndex(){
+        return this.index;
+    }
 
     public static void main(String[] args){
-        //ClassicHeap nd = new ClassicHeap(10);
+        int[] elements = {10, 5, 3, 15, 12, 11, 8, 14, 17, 13, 4, 16, 9, 20, 25};
+        System.out.println(Arrays.toString(elements));
+
+        System.out.println("-----o-----");
+
+        ClassicHeap nd = new ClassicHeap(elements);
+        System.out.println(Arrays.toString(nd.getHeap()));
+        System.out.println("heap index = " + nd.getIndex());
+
+        System.out.println("-----o-----");
+        System.out.println("decreaseKey index 6 con newVal 1");
+        nd.decreaseKey(6, 1);
+        System.out.println(Arrays.toString(nd.getHeap()));
+        System.out.println("heap index = " + nd.getIndex());
+
+        System.out.println("min1: " + nd.extractMin());
+        System.out.println(Arrays.toString(nd.getHeap()));
+        System.out.println("heap index = " + nd.getIndex());
+
+        System.out.println("min2: " + nd.extractMin());
+        System.out.println(Arrays.toString(nd.getHeap()));
+        System.out.println("heap index = " + nd.getIndex());
+
         /*
         System.out.println(nd.distances.length);
         System.out.println(nd.marked.length);
