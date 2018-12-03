@@ -57,13 +57,14 @@ public class NaiveDijkstra {
     }
 
     public static void main(String[] args) {
-        int n = 6;   //1000;
-        int e = 10;   //100*n;
+        int n = 100000;
+        int e = 1000*n;
         GraphOfNodes g = new GraphOfNodes(n, e);
         NaiveDijkstra nd = new NaiveDijkstra(n);
-
+        double iniTime = System.currentTimeMillis();
         nd.run(g);
-
+        double deltaTime =  System.currentTimeMillis() - iniTime;
+        System.out.println("Time Dijkstra: " + deltaTime);
 
     }
 
