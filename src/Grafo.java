@@ -2,9 +2,11 @@ import java.util.Random;
 
 public class Grafo {
 
+    private int numVertex;
     private float[][] edges;
 
     public Grafo(int n, int e) {
+        numVertex = n;
         // Initialize arrays
         edges = new float[e][3];
 
@@ -14,9 +16,9 @@ public class Grafo {
         Random rand2 = new Random();
 
         // Generate edges to ensure connectivity
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n - 1; i++) {
             edges[i][0] = i;
-            edges[i][1] = (i + 1) % n;
+            edges[i][1] = i + 1;
             float r = rand.nextFloat();
             // Change random number 0 to 1 -> now 0 exclusive and 1 inclusive
             edges[i][2] = (r == 0) ? 1 : r;
@@ -49,12 +51,17 @@ public class Grafo {
                         float r = rand.nextFloat();
                         // Change random number 0 to 1 -> now 0 exclusive and 1 inclusive
                         edges[i][2] = (r == 0) ? 1 : r;
+                        count++;
                         notReady = false;
                     }
                 }
             }
         }
 
+    }
+
+    public int getNumVertex() {
+        return numVertex;
     }
 
     public float[][] getEdges() {
