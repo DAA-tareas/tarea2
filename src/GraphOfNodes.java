@@ -67,7 +67,7 @@ public class GraphOfNodes {
                         Edge edge2 = new Edge(n2, n1, new_r);
                         n1.addEdge(edge);
                         n2.addEdge(edge2);
-                        count++;
+                        count++; // ?
                         notReady = false;
                     }
                 }
@@ -83,9 +83,13 @@ public class GraphOfNodes {
         return nodes;
     }
 
-    public static void main(String[] args){
-        GraphOfNodes g = new GraphOfNodes(6, 10);
-        List<Node> nodeList = g.getNodes();
+    public static void main(String[] args) {
+        double iniTime = System.currentTimeMillis();
+        int n = 1000000;
+        int e = 1000*n;
+        GraphOfNodes g = new GraphOfNodes(n, e);
+        //List<Node> nodeList = g.getNodes();
+        /*
         for (Node node : nodeList) {
             System.out.println("Node: " + node.getValue());
             System.out.println("Edges: ");
@@ -94,6 +98,19 @@ public class GraphOfNodes {
             }
             System.out.println("-----------");
         }
+        */
+        double deltatime =  System.currentTimeMillis() - iniTime;
+        System.out.println(deltatime);
+        System.out.println(g.getNumVertex());
+
+        // Get the Java runtime
+        Runtime runtime = Runtime.getRuntime();
+        // Run the garbage collector
+        runtime.gc();
+        // Calculate the used memory
+        long memory = runtime.totalMemory() - runtime.freeMemory();
+        System.out.println("Used memory is bytes: " + memory);
+
     }
 
 }
