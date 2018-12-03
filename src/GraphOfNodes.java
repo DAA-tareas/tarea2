@@ -12,6 +12,7 @@ public class GraphOfNodes {
         this.numVertex = n;
         this.numEdges = e;
         nodes = new ArrayList<>();
+        this.populate();
     }
 
     public int getNumVertex() {

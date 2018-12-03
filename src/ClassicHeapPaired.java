@@ -28,6 +28,7 @@ public class ClassicHeapPaired {
      * Inserta los elements en el heap
      *
      * @param elements
+     * @param ind
      */
     private void heapify(Pair[] elements, int ind) {
         for (int i = 0; i < ind; i++) {
@@ -38,7 +39,7 @@ public class ClassicHeapPaired {
     /**
      * Inserta val en el indice 'index' del heap
      *
-     * @param val
+     * @param nodePair
      */
     private void insertKey(Pair nodePair) {
         // Chequear capacidad (Ya sabemos el tamaño del heap)
@@ -74,53 +75,57 @@ public class ClassicHeapPaired {
      *
      * @return el minimo del heap
      */
-    public int extractMin() {
-        int min = this.heap[0].getDistance();
-        //Reemplazar raiz con el ultimo elemento apuntado por index
-        this.heap[0] = this.heap[this.index - 1];
-        this.heap[this.index - 1] = new Pair(-1, Integer.MAX_VALUE);
-        // Chequear que no sea negativo
-        if (this.index > 0) {
+    public Pair extractMin() {
+        Pair min = new Pair(-1, Integer.MAX_VALUE);
+        if(this.index < 0){
+            return min;
+        }else{
+            min = this.heap[0];
+            //Reemplazar raiz con el ultimo elemento apuntado por index
+            this.heap[0] = this.heap[this.index - 1];
+            this.heap[this.index - 1] = new Pair(-1, Integer.MAX_VALUE);
+            // Chequear que no sea negativo
             this.index--;
-            //this.heapify(this.heap, this.index);
-        } else
-            System.out.println("No hay mas elementos");
 
-        int i = 0;
-        // Mientras el elemento sea mayor a alguno de sus hijos
-        while (i < this.index) {
-            int j = 0;
-            // Si el hijo derecho no esta dentro de los elementos restante, el hijo izquierdo es el min
-            if ((2 * i + 2) > (this.index - 1))
-                j = 2 * i + 1;
-            // Si el hijo izquierdo no esta dentro de los elementos restantes, no hay swap
-            if ((2 * i + 1) > (this.index - 1))
-                break;
-            // Si ambos hijos estan dentro de los elementos, buscar el minimo
-            else {
-                if (this.heap[2 * i + 1].getDistance() > this.heap[2 * i + 2].getDistance()) {
-                    j = 2 * i + 2;
-                } else {
+
+
+            int i = 0;
+            // Mientras el elemento sea mayor a alguno de sus hijos
+            while (i < this.index) {
+                int j = 0;
+                // Si el hijo derecho no esta dentro de los elementos restante, el hijo izquierdo es el min
+                if ((2 * i + 2) > (this.index - 1))
                     j = 2 * i + 1;
+                // Si el hijo izquierdo no esta dentro de los elementos restantes, no hay swap
+                if ((2 * i + 1) > (this.index - 1))
+                    break;
+                    // Si ambos hijos estan dentro de los elementos, buscar el minimo
+                else {
+                    if (this.heap[2 * i + 1].getDistance() > this.heap[2 * i + 2].getDistance()) {
+                        j = 2 * i + 2;
+                    } else {
+                        j = 2 * i + 1;
+                    }
+                }
+
+                if (this.heap[i].getDistance() > this.heap[j].getDistance()) {
+                    // Intercambiar con el menor
+                    this.swap(i, j);
+                    i = j;
+                } else {
+                    break;
                 }
             }
 
-            if (this.heap[i].getDistance() > this.heap[j].getDistance()) {
-                // Intercambiar con el menor
-                this.swap(i, j);
-                i = j;
-            } else {
-                break;
-            }
+            return min;
         }
 
-        return min;
     }
 
     /**
      * Inserta el valor newVal en heap[ind] donde newVal < heap[ind]
      *
-     * @param ind:    Indice a cambiar
+     * @param nodeId:    Indice a cambiar
      * @param newDist: Valor a insertar en heap[ind]
      */
     public void decreaseKey(int nodeId, int newDist) {

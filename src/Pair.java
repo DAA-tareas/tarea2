@@ -3,9 +3,9 @@
  */
 public class Pair {
     private int nodeId;
-    private int distance;
+    private float distance;
 
-    public Pair(int nId, int distance){
+    public Pair(int nId, float distance){
         nodeId = nId;
         this.distance = distance;
     }
@@ -14,7 +14,7 @@ public class Pair {
         return this.nodeId;
     }
 
-    public int getDistance(){
+    public float getDistance(){
         return this.distance;
     }
 

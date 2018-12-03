@@ -60,7 +60,6 @@ public class NaiveDijkstra {
         int n = 6;   //1000;
         int e = 10;   //100*n;
         GraphOfNodes g = new GraphOfNodes(n, e);
-        g.populate();
         NaiveDijkstra nd = new NaiveDijkstra(n);
         nd.run(g);
         // /*
