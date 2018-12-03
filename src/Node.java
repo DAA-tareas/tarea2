@@ -19,7 +19,7 @@ public class Node {
         return connections;
     }
 
-    public float getConnectionWeight(Node node) {
+    public double getConnectionWeight(Node node) {
         for (Edge edge : this.connections) {
             if (edge.getEnd().equals(node)) {
                 return edge.getWeight();

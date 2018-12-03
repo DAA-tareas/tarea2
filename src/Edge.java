@@ -2,9 +2,9 @@ public class Edge {
 
     private Node start;
     private Node end;
-    private float weight;
+    private double weight;
 
-    public Edge(Node start, Node end, float w) {
+    public Edge(Node start, Node end, double w) {
         this.start = start;
         this.end = end;
         this.weight = w;
@@ -18,7 +18,7 @@ public class Edge {
         return end;
     }
 
-    public float getWeight() {
+    public double getWeight() {
         return weight;
     }
 

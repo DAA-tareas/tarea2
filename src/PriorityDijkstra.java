@@ -6,7 +6,7 @@ public class PriorityDijkstra {
     private GraphOfNodes graph;
     private Node origin;
     private Node[] prev;
-    private float[] dist;
+    private double[] dist;
 
     private ClassicHeapPaired ch;
     private FibonacciHeap fh;
@@ -15,14 +15,14 @@ public class PriorityDijkstra {
         graph = g;
         this.origin = origin;
         prev = new Node[g.getNumVertex()];
-        dist = new float[g.getNumVertex()];
+        dist = new double[g.getNumVertex()];
     }
 
     public Node[] getPrev() {
         return prev;
     }
 
-    public float[] getDist() {
+    public double[] getDist() {
         return dist;
     }
 
@@ -81,8 +81,8 @@ public class PriorityDijkstra {
         for (int i = 1; i < n; i++) {
             Node prevNode = prev[i];
             Node thisNode = g.getNodes().get(i);
-            float[] allDists = pd.getDist();
-            float w = prevNode.getConnectionWeight(thisNode);
+            double[] allDists = pd.getDist();
+            double w = prevNode.getConnectionWeight(thisNode);
             System.out.println("Previous node " + prevNode.getValue() + " to this node " + thisNode.getValue());
             System.out.println(" Weight from zero to this node: " + allDists[i]);
         }
