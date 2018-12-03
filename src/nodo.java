@@ -5,11 +5,13 @@ public class nodo{
     private int value;
     private nodo parent;
     private List<nodo> children;
+    boolean isRoot;
 
     public nodo(int value){
         this.value = value;
         this.parent = null;
         this.children = new ArrayList();
+        this.isRoot = false;
     }
 
     public int getValue(){
@@ -46,5 +48,13 @@ public class nodo{
 
     public void removeChildren(List<nodo> children){
         this.children.remove(children);
+    }
+
+    public boolean isRoot(){
+        return this.isRoot;
+    }
+
+    public void setIsRoot(boolean bool){
+        this.isRoot = bool;
     }
 }

@@ -4,7 +4,15 @@ public class binTree {
     private int k;
 
     public binTree(int value){
-        this.root = new nodo(value);
+        nodo Nodo = new nodo(value);
+        Nodo.setIsRoot(true);
+        this.root = Nodo;
+        this.k = 0;
+    }
+
+    public binTree(nodo Nodo){
+        Nodo.setIsRoot(true);
+        this.root = Nodo;
         this.k = 0;
     }
 
@@ -12,8 +20,14 @@ public class binTree {
         return this.root;
     }
 
+    public void setRoot(nodo Nodo){ this.root = Nodo;}
+
     public int getK(){
         return this.k;
+    }
+
+    public void setK(int n){
+        this.k = n;
     }
 
     public double getNumNodos(){
@@ -26,15 +40,22 @@ public class binTree {
 
     public binTree joinTree(binTree tree){
         int val1 = this.root.getValue();
-        int val2 = tree.root.getValue();
+        nodo treeRoot = tree.getRoot();
+        int val2 = treeRoot.getValue();
 
         if (val1 < val2){
-            this.root.addChild(tree.root);
+            treeRoot.setIsRoot(false);
+            treeRoot.setParent(this.root);
+            this.root.addChild(treeRoot);
             this.k++;
             return this;
         }
-        tree.root.addChild(this.root);
-        tree.k++;
+        this.root.setIsRoot(false);
+        this.root.setParent(treeRoot);
+        treeRoot.addChild(this.root);
+        tree.setRoot(treeRoot);
+
+        tree.setK(tree.getK() + 1);
         return tree;
     }
 }
