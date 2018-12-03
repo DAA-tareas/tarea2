@@ -5,10 +5,12 @@ import java.util.Random;
 public class GraphOfNodes {
 
     private int numVertex;
+    private int numEdges;
     private List<Node> nodes;
 
     public GraphOfNodes(int n, int e) {
         numVertex = n;
+        numEdges = e;
         nodes = new ArrayList<>();
 
         // Random float between 0 inclusive and 1 exclusive
@@ -78,6 +80,7 @@ public class GraphOfNodes {
     public int getNumVertex() {
         return numVertex;
     }
+    public int getNumEdges() { return numEdges; }
 
     public List<Node> getNodes() {
         return nodes;

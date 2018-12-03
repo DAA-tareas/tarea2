@@ -21,4 +21,8 @@ public class Pair {
     public void setDistance(int distance) {
         this.distance = distance;
     }
+
+    public String toString(){
+        return "(" + nodeId + ", " + distance + ")";
+    }
 }

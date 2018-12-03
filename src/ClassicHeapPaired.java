@@ -78,7 +78,7 @@ public class ClassicHeapPaired {
         int min = this.heap[0].getDistance();
         //Reemplazar raiz con el ultimo elemento apuntado por index
         this.heap[0] = this.heap[this.index - 1];
-        this.heap[this.index - 1].setDistance(Integer.MAX_VALUE);
+        this.heap[this.index - 1] = new Pair(-1, Integer.MAX_VALUE);
         // Chequear que no sea negativo
         if (this.index > 0) {
             this.index--;
@@ -121,14 +121,23 @@ public class ClassicHeapPaired {
      * Inserta el valor newVal en heap[ind] donde newVal < heap[ind]
      *
      * @param ind:    Indice a cambiar
-     * @param newVal: Valor a insertar en heap[ind]
+     * @param newDist: Valor a insertar en heap[ind]
      */
-    public void decreaseKey(int ind, Pair newVal) {
+    public void decreaseKey(int nodeId, int newDist) {
+        int ind = 0;
         // Buscar nodo y cambiar su valor
+        for(Pair p : heap){
+            if(p.getNodeId() == nodeId){
+                ind = p.getNodeId(); // guardar el indice del nodo
+                p.setDistance(newDist);
+                break;
+            }
+        }
         // Cambiar el valor
-        this.heap[ind] = newVal;
+        //this.heap[ind] = newDist;
+
         // Cambiar elementos que rompan el invariante
-        // Mientras que el padre sea mayor que el hijo ingresado
+        // Mientras que la distancia del padre sea mayor que la del hijo
         while (ind > 0 && this.heap[(ind - 1) / 2].getDistance() > heap[ind].getDistance()) {
             swap(ind, (ind - 1) / 2);
             ind = (ind - 1) / 2;
@@ -144,13 +153,21 @@ public class ClassicHeapPaired {
     }
 
     public static void main(String[] args) {
-        /*
         int[] elements = {10, 5, 3, 15, 12, 11, 8, 14, 17, 13, 4, 16, 9, 20, 25};
         System.out.println(Arrays.toString(elements));
+        int[] nodeId = new int[elements.length];
+        for(int i=0; i<elements.length; i++){
+            nodeId[i] = i;
+        }
+        System.out.println(Arrays.toString(nodeId));
+        Pair[] pairNodes = new Pair[elements.length];
+        for(int i=0; i<elements.length; i++){
+            pairNodes[i] = new Pair(nodeId[i], elements[i]);
+        }
 
         System.out.println("-----o-----");
 
-        ClassicHeap nd = new ClassicHeap(elements);
+        ClassicHeapPaired nd = new ClassicHeapPaired(pairNodes);
         System.out.println(Arrays.toString(nd.getHeap()));
         System.out.println("heap index = " + nd.getIndex());
 
@@ -168,13 +185,19 @@ public class ClassicHeapPaired {
         System.out.println(Arrays.toString(nd.getHeap()));
         System.out.println("heap index = " + nd.getIndex());
 
+        System.out.println("min3: " + nd.extractMin());
+        System.out.println(Arrays.toString(nd.getHeap()));
+        System.out.println("heap index = " + nd.getIndex());
 
+        /*
         System.out.println(nd.distances.length);
         System.out.println(nd.marked.length);
         for(boolean b : nd.marked){
             System.out.println(b);
         }
         */
+
+
     }
 
 }
