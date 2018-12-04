@@ -11,7 +11,7 @@ public class FibonacciHeap {
     }
 
     public void insert(binTree b0){
-        int value = b0.getRoot().getValue();
+        int value = b0.getRoot().getPriority();
 
         if (lista.isEmpty()){
             this.lista.add(b0);
@@ -19,21 +19,25 @@ public class FibonacciHeap {
         }
         else{
             this.lista.add(b0);
-            if (value < this.lista.get(this.min).getRoot().getValue()){
+            if (value < this.lista.get(this.min).getRoot().getPriority()){
                 this.min = this.lista.size() - 1;
             }
         }
         this.n++;
 
     }
-    public void insert(nodo Nodo){
-        binTree b0 = new binTree(Nodo);
+    public void insert(Node nodo, int priority){
+        nodo.setPriority(priority);
+        binTree b0 = new binTree(nodo);
         this.insert(b0);
     }
 
-    public void insert(int value){
-        binTree b0 = new binTree(value);
-        this.insert(b0);
+    public void insertAll(List<Node> list, int[] priorities){
+        for (Node nodo: list){
+            for(int priority: priorities){
+                this.insert(nodo, priority);
+            }
+        }
     }
 
     public boolean isEmpty(){
@@ -41,7 +45,7 @@ public class FibonacciHeap {
     }
 
     public int findMin(){
-        return this.lista.get(this.min).getRoot().getValue();
+        return this.lista.get(this.min).getRoot().getPriority();
     }
 
     public List<binTree> getLista(){
@@ -57,8 +61,8 @@ public class FibonacciHeap {
         this.lista.remove(min);
         n--;
 
-        for (nodo hijo: arbolMin.getRoot().getChildren()){
-            this.insert(hijo);
+        for (Node hijo: arbolMin.getRoot().getChildren()){
+            this.insert(hijo, hijo.getPriority());
         }
 
         int sizeA = (int) Math.ceil( (long) Math.log(n) / (long) Math.log(2));
@@ -97,10 +101,35 @@ public class FibonacciHeap {
         Integer min = null;
 
         for (binTree tree: this.lista){
-            if (tree.getRoot().getValue()<this.lista.get(min).getRoot().getValue() || min == null){
+            if (tree.getRoot().getPriority()<this.lista.get(min).getRoot().getPriority() || min == null){
                 min = this.lista.indexOf(tree);
             }
         }
+    }
+
+
+    public void printFH(){
+        for (binTree tree: this.lista){
+            tree.printBT(tree);
+            System.out.println("------------");
+        }
+    }
+
+    public static void main(String[] args) {
+        FibonacciHeap H = new FibonacciHeap();
+        List<Node> list = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++){
+            list.add(new Node(i));
+        }
+        int i = 0;
+        for (Node nodo: list){
+            H.insert(nodo, i++);
+        }
+
+        H.printFH();
+        H.extractMin();
+        H.printFH();
     }
 
 

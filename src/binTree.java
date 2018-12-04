@@ -1,26 +1,20 @@
+import java.util.List;
 
 public class binTree {
-    private nodo root;
+    private Node root;
     private int k;
 
-    public binTree(int value){
-        nodo Nodo = new nodo(value);
-        Nodo.setIsRoot(true);
-        this.root = Nodo;
+    public binTree(Node nodo){
+        nodo.setIsRoot(true);
+        this.root = nodo;
         this.k = 0;
     }
 
-    public binTree(nodo Nodo){
-        Nodo.setIsRoot(true);
-        this.root = Nodo;
-        this.k = 0;
-    }
-
-    public nodo getRoot(){
+    public Node getRoot(){
         return this.root;
     }
 
-    public void setRoot(nodo Nodo){ this.root = Nodo;}
+    public void setRoot(Node nodo){ this.root = nodo;}
 
     public int getK(){
         return this.k;
@@ -39,9 +33,9 @@ public class binTree {
     }
 
     public binTree joinTree(binTree tree){
-        int val1 = this.root.getValue();
-        nodo treeRoot = tree.getRoot();
-        int val2 = treeRoot.getValue();
+        int val1 = this.root.getPriority();
+        Node treeRoot = tree.getRoot();
+        int val2 = treeRoot.getPriority();
 
         if (val1 < val2){
             treeRoot.setIsRoot(false);
@@ -57,5 +51,26 @@ public class binTree {
 
         tree.setK(tree.getK() + 1);
         return tree;
+    }
+
+    public void printChildren(List<Node> children){
+        for(Node child: children){
+            System.out.print(child.getPriority() + "|");
+        }
+        System.out.print("|");
+    }
+
+    public void travelBT(List<Node> children){
+        printChildren(children);
+        for(Node child: children){
+            travelBT(child.getChildren());
+        }
+    }
+
+    public void printBT(binTree tree){
+        root = tree.getRoot();
+        System.out.println(root.getPriority());
+        List<Node> children = root.getChildren();
+        travelBT(children);
     }
 }

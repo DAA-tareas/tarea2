@@ -2,20 +2,20 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class nodo{
-    private int value;
+    private int priority;
     private nodo parent;
     private List<nodo> children;
     boolean isRoot;
 
-    public nodo(int value){
-        this.value = value;
+    public nodo(int priority){
+        this.priority = priority;
         this.parent = null;
         this.children = new ArrayList();
         this.isRoot = false;
     }
 
     public int getValue(){
-        return this.value;
+        return this.priority;
     }
 
     public nodo getParent(){
@@ -26,8 +26,8 @@ public class nodo{
         return this.children;
     }
 
-    public void setValue(int value){
-        this.value = value;
+    public void setValue(int priority){
+        this.priority = priority;
     }
 
     public void setParent(nodo parent){
