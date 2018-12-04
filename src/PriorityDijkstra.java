@@ -58,6 +58,35 @@ public class PriorityDijkstra {
         }
     }
 
+    public void fibonacciHeapDijkstra() {
+        FibonacciHeap fb = new FibonacciHeap();
+        List<Node> graphNodes = graph.getNodes();
+        for(int i=0; i<graph.getNumVertex(); i++){
+            // If the node is the origin
+            if(graphNodes.get(i).getValue() == origin.getValue()) {
+                dist[i] = 0;
+            }else {
+                dist[i] = Integer.MAX_VALUE;
+            }
+            // Predecesor de v nulo
+            prev[i] = null;
+            fb.insert(graphNodes.get(i), dist[i]);
+        }
+
+        while(!fb.isEmpty()){
+            Node m = fb.extractMin();
+            // Para cada vecino de nodo m
+            for (Edge edge : m.getConnections()) {
+                Node neighbour = edge.getEnd();
+                int v = neighbour.getValue();
+                if (dist[v] > dist[m.getValue()] + edge.getWeight()) {
+                    dist[v] = dist[m.getValue()] + edge.getWeight();
+                    prev[v] = m;
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
         int n = 6;
         int e = 10;

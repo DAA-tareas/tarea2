@@ -7,7 +7,8 @@ public class Node {
     private List<Edge> connections;
 
     // info para cuando se inserte a una cola de fibonacci
-    private int priority;
+    private double priority;
+    private int k;
     private Node parent;
     private List<Node> children;
     boolean isRoot, marked;
@@ -16,6 +17,7 @@ public class Node {
         this.value = v;
         this.connections = new ArrayList<>();
         this.priority = 0;
+        this.k = 0;
         this.parent = null;
         this.children = new ArrayList();
         this.isRoot = false;
@@ -51,7 +53,7 @@ public class Node {
     }
 
 
-    public int getPriority(){
+    public double getPriority(){
         return this.priority;
     }
 
@@ -63,7 +65,11 @@ public class Node {
         return this.children;
     }
 
-    public void setPriority(int priority){
+    public void setChildren(List<Node> children){
+        this.children = children;
+    }
+
+    public void setPriority(Double priority){
         this.priority = priority;
     }
 
@@ -75,7 +81,7 @@ public class Node {
         this.children.add(child);
     }
 
-    public void removeChild(nodo child){
+    public void removeChild(Node child){
         this.children.remove(child);
     }
 
@@ -103,4 +109,7 @@ public class Node {
         this.isRoot = bool;
     }
 
+    public int getK(){ return this.k;}
+
+    public void setK(int k){ this.k = k;}
 }

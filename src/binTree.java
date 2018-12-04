@@ -1,13 +1,12 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class binTree {
     private Node root;
-    private int k;
 
     public binTree(Node nodo){
         nodo.setIsRoot(true);
         this.root = nodo;
-        this.k = 0;
     }
 
     public Node getRoot(){
@@ -17,60 +16,75 @@ public class binTree {
     public void setRoot(Node nodo){ this.root = nodo;}
 
     public int getK(){
-        return this.k;
-    }
-
-    public void setK(int n){
-        this.k = n;
+        return this.root.getK();
     }
 
     public double getNumNodos(){
-        return Math.pow( 2, this.k);
+        return Math.pow( 2, this.root.getK());
     }
 
     public int getKHeight(){
-        return this.k + 1;
+        return this.root.getK() + 1;
     }
 
     public binTree joinTree(binTree tree){
-        int val1 = this.root.getPriority();
+        Node Root = this.getRoot();
+        double val1 = Root.getPriority();
         Node treeRoot = tree.getRoot();
-        int val2 = treeRoot.getPriority();
+        double val2 = treeRoot.getPriority();
 
         if (val1 < val2){
             treeRoot.setIsRoot(false);
             treeRoot.setParent(this.root);
-            this.root.addChild(treeRoot);
-            this.k++;
+            Root.addChild(treeRoot);
+            this.setRoot(Root);
+            this.root.setK(this.root.getK() + 1);
             return this;
         }
         this.root.setIsRoot(false);
         this.root.setParent(treeRoot);
         treeRoot.addChild(this.root);
+        treeRoot.setK(treeRoot.getK() + 1);
         tree.setRoot(treeRoot);
-
-        tree.setK(tree.getK() + 1);
         return tree;
     }
 
     public void printChildren(List<Node> children){
+        Node pastParent = null;
+        List<Node> nextChildren = new ArrayList<>();
+
         for(Node child: children){
+            if (child.getParent()!=pastParent){
+                System.out.print("|");
+            }
             System.out.print(child.getPriority() + "|");
+            pastParent = child.getParent();
+
+            if (child.getPriority()!=-1) {
+
+                List<Node> grandchildren = child.getChildren();
+
+                if (grandchildren.isEmpty()) {
+                    Node node = new Node(-1);
+                    node.setPriority((double)-1);
+                    grandchildren.add(node);
+                }
+
+                nextChildren.addAll(grandchildren);
+            }
         }
-        System.out.print("|");
+        System.out.println("");
+        if (!nextChildren.isEmpty()) {
+            printChildren(nextChildren);
+        }
     }
 
-    public void travelBT(List<Node> children){
-        printChildren(children);
-        for(Node child: children){
-            travelBT(child.getChildren());
-        }
-    }
 
     public void printBT(binTree tree){
         root = tree.getRoot();
         System.out.println(root.getPriority());
         List<Node> children = root.getChildren();
-        travelBT(children);
+        printChildren(children);
+        System.out.println("");
     }
 }
