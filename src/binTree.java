@@ -19,8 +19,8 @@ public class binTree {
         return this.root.getK();
     }
 
-    public double getNumNodos(){
-        return Math.pow( 2, this.root.getK());
+    public int getNumNodos(){
+        return (int)Math.pow( 2, this.root.getK());
     }
 
     public int getKHeight(){
@@ -35,6 +35,7 @@ public class binTree {
 
         if (val1 < val2){
             treeRoot.setIsRoot(false);
+            treeRoot.setIsMarked(false);
             treeRoot.setParent(this.root);
             Root.addChild(treeRoot);
             this.setRoot(Root);
@@ -42,6 +43,7 @@ public class binTree {
             return this;
         }
         this.root.setIsRoot(false);
+        this.root.setIsMarked(false);
         this.root.setParent(treeRoot);
         treeRoot.addChild(this.root);
         treeRoot.setK(treeRoot.getK() + 1);

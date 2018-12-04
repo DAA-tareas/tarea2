@@ -1,14 +1,12 @@
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class FibonacciHeap {
     private List<binTree> lista;
-    private int min, n;
+    private Integer min;
 
     public FibonacciHeap(){
         this.lista = new ArrayList<>();
-        this.n = 0;
     }
 
     public void insert(binTree b0){
@@ -24,7 +22,6 @@ public class FibonacciHeap {
                 this.min = this.lista.size() - 1;
             }
         }
-        this.n++;
 
     }
     public void insert(Node nodo, Double priority){
@@ -33,16 +30,8 @@ public class FibonacciHeap {
         this.insert(b0);
     }
 
-    public void insertAll(List<Node> list, double[] priorities){
-        for (Node nodo: list){
-            for(double priority: priorities){
-                this.insert(nodo, priority);
-            }
-        }
-    }
-
     public boolean isEmpty(){
-        return this.n == 0;
+        return this.lista.size() == 0;
     }
 
     public double findMin(){
@@ -57,20 +46,25 @@ public class FibonacciHeap {
         this.lista.addAll(fibHeap.getLista());
     }
 
+    public int getN(){
+        int sum = 0;
+        for (binTree tree: this.lista){
+            sum = sum + tree.getNumNodos();
+        }
+        return sum; }
+
     public Node extractMin(){
         binTree arbolMin = this.lista.get(this.min);
         Node ret = arbolMin.getRoot();
-        this.lista.remove(min);
-        n--;
+        this.lista.remove(arbolMin);
 
-        int j =0;
         for (Node hijo: arbolMin.getRoot().getChildren()){
             this.insert(hijo, hijo.getPriority());
         }
 
-        int sizeA = (int) Math.ceil( Math.log(n) / Math.log(2));
-        Integer[] A = new Integer[sizeA + 1];
-
+        double sizeA = Math.ceil( Math.log(this.getN()) / Math.log(2));
+        Integer[] A = new Integer[(int)Math.ceil( Math.log(this.getN() + 1) / Math.log(2)) + 1];
+        System.out.println("N of nodes: "+ this.getN()+ ", length A: " + A.length);
 
         for (int i = 0; i<this.lista.size(); i++){
             binTree tree = this.lista.get(i);
@@ -113,7 +107,7 @@ public class FibonacciHeap {
         this.setMin(min);
     }
 
-    public void setMin(int min){
+    public void setMin(Integer min){
         this.min = min;
     }
 
@@ -170,7 +164,8 @@ public class FibonacciHeap {
             H.insert(nodo, i++);
         }
 
-        H.extractMin();
+        H.printFH();
+        System.out.println("minimo extraido: " + H.extractMin().getPriority());
         H.printFH();
         H.extractMin();
         H.printFH();

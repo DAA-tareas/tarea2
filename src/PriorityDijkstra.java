@@ -68,10 +68,7 @@ public class PriorityDijkstra {
     /**
      * * Dijstra implementado con Fibonacci Heap
      */
-    public void fibonacciDijkstra(GraphOfNodes graph, Node origin) {
-    }
-
-    public void fibonacciHeapDijkstra() {
+    public void fibonacciHeapDijkstra(GraphOfNodes graph, Node origin) {
         FibonacciHeap fb = new FibonacciHeap();
         List<Node> graphNodes = graph.getNodes();
         for(int i=0; i<graph.getNumVertex(); i++){
@@ -95,6 +92,7 @@ public class PriorityDijkstra {
                 if (dist[v] > dist[m.getValue()] + edge.getWeight()) {
                     dist[v] = dist[m.getValue()] + edge.getWeight();
                     prev[v] = m;
+                    fb.decreaseKey(neighbour, dist[m.getValue()] + edge.getWeight());
                 }
             }
         }
@@ -106,7 +104,7 @@ public class PriorityDijkstra {
         GraphOfNodes g = new GraphOfNodes(n, e);
         PriorityDijkstra pd = new PriorityDijkstra(n);
         double iniTime = System.currentTimeMillis();
-        pd.classicHeapDijkstra(g, g.getNodes().get(0));
+        pd.fibonacciHeapDijkstra(g, g.getNodes().get(0));
         double deltaTime = System.currentTimeMillis() - iniTime;
         System.out.println("Tiempo en busqueda caminos mas cortos " + deltaTime);
 

@@ -23,7 +23,7 @@ public class Test {
         // Fibonacci
         PriorityDijkstra pdFibonacci = new PriorityDijkstra(n);
         double iniFibonacciTime = System.currentTimeMillis();
-        pdFibonacci.fibonacciDijkstra(g, g.getNodes().get(0));
+        pdFibonacci.fibonacciHeapDijkstra(g, g.getNodes().get(0));
         double deltaFibonacciTime = System.currentTimeMillis() - iniFibonacciTime;
 
         System.out.println("Tiempos de ejecucion de Dijkstra para n=" + n + " e=10^" + e);
