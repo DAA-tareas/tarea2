@@ -33,6 +33,7 @@ public class Test {
             System.out.println("Naive Approach " + deltaNaiveTime + " ms");
             System.out.println("Priority-Classic-Heap " + deltaClassicTime + " ms");
             System.out.println("Priority-Fibonacci-Heap " + deltaFibonacciTime + " ms");
+            System.out.println("-------------");
         }
     }
 
@@ -41,7 +42,9 @@ public class Test {
         int n = 100000;
         for (int i = 0; i<3; i++) {
             Test.test(n, 10*n);
+            System.out.println("-------------");
             Test.test(n, 100 * n);
+            System.out.println("-------------");
             Test.test(n, 1000*n);
         }
     }
