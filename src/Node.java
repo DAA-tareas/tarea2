@@ -11,7 +11,7 @@ public class Node {
     private int k;
     private Node parent;
     private List<Node> children;
-    boolean isRoot, marked;
+    private boolean isRoot, marked;
 
     public Node(int v) {
         this.value = v;

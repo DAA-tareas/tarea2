@@ -4,6 +4,7 @@ import java.util.List;
 public class FibonacciHeap {
     private List<binTree> lista;
     private Integer min;
+    private int n;
 
     public FibonacciHeap(){
         this.lista = new ArrayList<>();
@@ -28,6 +29,7 @@ public class FibonacciHeap {
         nodo.setPriority(priority);
         binTree b0 = new binTree(nodo);
         this.insert(b0);
+        this.n = this.n +1;
     }
 
     public boolean isEmpty(){
@@ -44,27 +46,25 @@ public class FibonacciHeap {
 
     public void merge(FibonacciHeap fibHeap){
         this.lista.addAll(fibHeap.getLista());
+        this.n = this.n + fibHeap.getN();
     }
 
-    public int getN(){
-        int sum = 0;
-        for (binTree tree: this.lista){
-            sum = sum + tree.getNumNodos();
-        }
-        return sum; }
+    public int getN(){ return this.n;}
 
     public Node extractMin(){
         binTree arbolMin = this.lista.get(this.min);
         Node ret = arbolMin.getRoot();
-        this.lista.remove(arbolMin);
 
         for (Node hijo: arbolMin.getRoot().getChildren()){
-            this.insert(hijo, hijo.getPriority());
+            hijo.setParent(null);
+            binTree B = new binTree(hijo);
+            this.insert(B);
         }
 
+        this.lista.remove(arbolMin);
+
         double sizeA = Math.ceil( Math.log(this.getN()) / Math.log(2));
-        Integer[] A = new Integer[(int)Math.ceil( Math.log(this.getN() + 1) / Math.log(2)) + 1];
-        System.out.println("N of nodes: "+ this.getN()+ ", length A: " + A.length);
+        Integer[] A = new Integer[(int)Math.ceil( Math.log(this.getN() + 1) / Math.log(2)) * 10];
 
         for (int i = 0; i<this.lista.size(); i++){
             binTree tree = this.lista.get(i);
@@ -91,6 +91,8 @@ public class FibonacciHeap {
         this.lista = listaA;
 
         this.calcMin();
+
+        this.n = this.n -1;
 
         return ret;
     }
@@ -123,17 +125,17 @@ public class FibonacciHeap {
 
     public void cut(Node nodo, Node parent){
         parent.removeChild(nodo);
-        parent.setK(parent.getK() - 1);
-        this.insert(nodo, nodo.getPriority());
         nodo.setParent(null);
         nodo.setIsMarked(false);
+        binTree B = new binTree(nodo);
+        this.insert(B);
     }
 
     public void cutAux(Node parent){
         Node grandParent = parent.getParent();
 
         if (grandParent!=null){
-            if (parent.isMarked() == false){
+            if (parent.isMarked() == false && parent.isRoot()==false){
                 parent.setIsMarked(true);
             }
             else{
@@ -161,13 +163,17 @@ public class FibonacciHeap {
         }
         double i = 0;
         for (Node nodo: list){
-            H.insert(nodo, i++);
+            H.insert(nodo, 2*i++);
         }
 
         H.printFH();
         System.out.println("minimo extraido: " + H.extractMin().getPriority());
         H.printFH();
         H.extractMin();
+        H.printFH();
+        H.decreaseKey(list.get(4), 7);
+        H.printFH();
+        H.decreaseKey(list.get(4), 3);
         H.printFH();
     }
 

@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.List;
 
 public class PriorityDijkstra {
@@ -7,6 +8,9 @@ public class PriorityDijkstra {
     private Node[] prev;
     private double[] dist;
 
+    private Node[] prevFib;
+    private double[] distFib;
+
     private ClassicHeap ch;
     private FibonacciHeap fh;
 
@@ -15,6 +19,9 @@ public class PriorityDijkstra {
         //this.origin = origin;
         prev = new Node[n];
         dist = new double[n];
+
+        prevFib = new Node[n];
+        distFib = new double[n];
     }
 
     public Node[] getPrev() {
@@ -74,13 +81,13 @@ public class PriorityDijkstra {
         for(int i=0; i<graph.getNumVertex(); i++){
             // If the node is the origin
             if(graphNodes.get(i).getValue() == origin.getValue()) {
-                dist[i] = 0;
+                distFib[i] = 0;
             }else {
-                dist[i] = Integer.MAX_VALUE;
+                distFib[i] = Integer.MAX_VALUE;
             }
             // Predecesor de v nulo
-            prev[i] = null;
-            fb.insert(graphNodes.get(i), dist[i]);
+            prevFib[i] = null;
+            fb.insert(graphNodes.get(i), distFib[i]);
         }
 
         while(!fb.isEmpty()){
@@ -89,10 +96,10 @@ public class PriorityDijkstra {
             for (Edge edge : m.getConnections()) {
                 Node neighbour = edge.getEnd();
                 int v = neighbour.getValue();
-                if (dist[v] > dist[m.getValue()] + edge.getWeight()) {
-                    dist[v] = dist[m.getValue()] + edge.getWeight();
-                    prev[v] = m;
-                    fb.decreaseKey(neighbour, dist[m.getValue()] + edge.getWeight());
+                if (distFib[v] > distFib[m.getValue()] + edge.getWeight()) {
+                    distFib[v] = distFib[m.getValue()] + edge.getWeight();
+                    prevFib[v] = m;
+                    fb.decreaseKey(neighbour, distFib[m.getValue()] + edge.getWeight());
                 }
             }
         }
@@ -103,10 +110,27 @@ public class PriorityDijkstra {
         int e = 1000*n;
         GraphOfNodes g = new GraphOfNodes(n, e);
         PriorityDijkstra pd = new PriorityDijkstra(n);
+
         double iniTime = System.currentTimeMillis();
-        pd.fibonacciHeapDijkstra(g, g.getNodes().get(0));
+        pd.classicHeapDijkstra(g, g.getNodes().get(0));
         double deltaTime = System.currentTimeMillis() - iniTime;
         System.out.println("Tiempo en busqueda caminos mas cortos " + deltaTime);
+
+        iniTime = System.currentTimeMillis();
+        pd.fibonacciHeapDijkstra(g, g.getNodes().get(0));
+        deltaTime = System.currentTimeMillis() - iniTime;
+        System.out.println("Tiempo en busqueda caminos mas cortos " + deltaTime);
+
+
+        /* imprime resultados uno al lado del otro para comparar
+        for (int j = 0; j < pd.dist.length; j++){
+            double ch = pd.dist[j];
+            double fh = pd.distFib[j];
+            System.out.println("ch : " + ch);
+            System.out.println("fh : " + fh);
+            System.out.println("----------------------");
+        }
+        */
 
         /*
         System.out.println("Id Nodo Origen " + g.getNodes().get(0).getValue());
