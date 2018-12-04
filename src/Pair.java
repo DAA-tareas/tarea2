@@ -1,6 +1,4 @@
-/**
- * Created by GPG on 12/3/2018.
- */
+
 public class Pair {
     private int nodeId;
     private double distance;
@@ -18,7 +16,7 @@ public class Pair {
         return this.distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
