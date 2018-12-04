@@ -1,21 +1,20 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class PriorityDijkstra {
 
-    private GraphOfNodes graph;
-    private Node origin;
+    //private GraphOfNodes graph;
+    //private Node origin;
     private Node[] prev;
     private double[] dist;
 
-    private ClassicHeapPaired ch;
+    private ClassicHeap ch;
     private FibonacciHeap fh;
 
-    public PriorityDijkstra(GraphOfNodes g, Node origin) {
-        graph = g;
-        this.origin = origin;
-        prev = new Node[g.getNumVertex()];
-        dist = new double[g.getNumVertex()];
+    public PriorityDijkstra(int n) {
+        //graph = g;
+        //this.origin = origin;
+        prev = new Node[n];
+        dist = new double[n];
     }
 
     public Node[] getPrev() {
@@ -26,7 +25,11 @@ public class PriorityDijkstra {
         return dist;
     }
 
-    public void clasicHeapDijkstra() {
+
+    /**
+     * Dijstra implementado con Classic Heap
+     */
+    public void classicHeapDijkstra(GraphOfNodes graph, Node origin) {
         Pair[] pairedNodes = new Pair[graph.getNumVertex()];
         List<Node> graphNodes = graph.getNodes();
         for(int i=0; i<graph.getNumVertex(); i++){
@@ -41,21 +44,31 @@ public class PriorityDijkstra {
             prev[i] = null;
         }
         // Clasic heap
-        this.ch = new ClassicHeapPaired(pairedNodes);
+        this.ch = new ClassicHeap(pairedNodes);
 
-        while(ch.getIndex() >= 0){
+        // while !Q.isEmpty()
+        while(ch.getIndex() > 0){
             Pair m = ch.extractMin(); // Par(id nodo, distancia a origen)
             // Buscar el nodo
             Node mNode = graphNodes.get(m.getNodeId());
             // Para cada vecino de nodo m
             for (Edge edge : mNode.getConnections()) {
                 int v = edge.getEnd().getValue();
-                if (dist[v] > dist[mNode.getValue()] + edge.getWeight()) {
-                    dist[v] = dist[mNode.getValue()] + edge.getWeight();
+                double nuevaDist = dist[mNode.getValue()] + edge.getWeight();
+                if (nuevaDist < dist[v]){
+                    dist[v] = nuevaDist;
                     prev[v] = mNode;
+                    this.ch.decreaseKey(v, nuevaDist);
                 }
             }
         }
+
+    }
+
+    /**
+     * * Dijstra implementado con Fibonacci Heap
+     */
+    public void fibonacciDijkstra(GraphOfNodes graph, Node origin) {
     }
 
     public void fibonacciHeapDijkstra() {
@@ -88,12 +101,17 @@ public class PriorityDijkstra {
     }
 
     public static void main(String[] args) {
-        int n = 6;
-        int e = 10;
+        int n = 100000;
+        int e = 1000*n;
         GraphOfNodes g = new GraphOfNodes(n, e);
-        PriorityDijkstra pd = new PriorityDijkstra(g, g.getNodes().get(0));
-        pd.clasicHeapDijkstra();
-        // /*
+        PriorityDijkstra pd = new PriorityDijkstra(n);
+        double iniTime = System.currentTimeMillis();
+        pd.classicHeapDijkstra(g, g.getNodes().get(0));
+        double deltaTime = System.currentTimeMillis() - iniTime;
+        System.out.println("Tiempo en busqueda caminos mas cortos " + deltaTime);
+
+        /*
+        System.out.println("Id Nodo Origen " + g.getNodes().get(0).getValue());
         // Print Graph
         List<Node> nodeList = g.getNodes();
         for (Node node : nodeList) {
@@ -111,10 +129,13 @@ public class PriorityDijkstra {
             Node prevNode = prev[i];
             Node thisNode = g.getNodes().get(i);
             double[] allDists = pd.getDist();
-            double w = prevNode.getConnectionWeight(thisNode);
+            //double w = prevNode.getConnectionWeight(thisNode);
             System.out.println("Previous node " + prevNode.getValue() + " to this node " + thisNode.getValue());
             System.out.println(" Weight from zero to this node: " + allDists[i]);
         }
+        */
+
+
     }
 
 }
