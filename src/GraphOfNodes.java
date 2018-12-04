@@ -50,9 +50,7 @@ public class GraphOfNodes {
 
         // Generate rest e - n + 1 edges
         int rest = this.numEdges - this.numVertex + 1;
-        // Number of places edges
-        int count = this.numVertex - 1;
-        for (int i = rest; i < this.numEdges; i++) {
+        for (int i = 0; i < rest; i++) {
             // Possible new edge
             boolean notReady = true;
             while (notReady) {
@@ -80,7 +78,6 @@ public class GraphOfNodes {
                         Edge edge2 = new Edge(n2, n1, new_r);
                         n1.addEdge(edge);
                         n2.addEdge(edge2);
-                        count++;
                         notReady = false;
                     }
                 }
@@ -90,8 +87,8 @@ public class GraphOfNodes {
 
     public static void main(String[] args) {
         double iniTime = System.currentTimeMillis();
-        int n = 1000000;
-        int e = 1000*n;
+        int n = 100000;
+        int e = 300*n;
         GraphOfNodes g = new GraphOfNodes(n, e);
         g.populate();
         //List<Node> nodeList = g.getNodes();

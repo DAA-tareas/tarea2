@@ -13,15 +13,18 @@ public class Node {
     private List<Node> children;
     private boolean isRoot, marked;
 
+
     public Node(int v) {
         this.value = v;
         this.connections = new ArrayList<>();
+
         this.priority = 0;
         this.k = 0;
         this.parent = null;
         this.children = new ArrayList();
         this.isRoot = false;
         this.marked = false;
+
     }
 
     public int getValue() {
@@ -112,4 +115,5 @@ public class Node {
     public int getK(){ return this.k;}
 
     public void setK(int k){ this.k = k;}
+
 }

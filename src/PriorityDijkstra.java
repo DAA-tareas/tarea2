@@ -117,7 +117,7 @@ public class PriorityDijkstra {
         System.out.println("Tiempo en busqueda caminos mas cortos " + deltaTime);
 
         iniTime = System.currentTimeMillis();
-        pd.fibonacciHeapDijkstra(g, g.getNodes().get(0));
+        //pd.fibonacciHeapDijkstra(g, g.getNodes().get(0));
         deltaTime = System.currentTimeMillis() - iniTime;
         System.out.println("Tiempo en busqueda caminos mas cortos " + deltaTime);
 

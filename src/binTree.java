@@ -89,4 +89,5 @@ public class binTree {
         printChildren(children);
         System.out.println("");
     }
+
 }
