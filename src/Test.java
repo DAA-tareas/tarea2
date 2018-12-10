@@ -83,8 +83,8 @@ public class Test {
             Test.test(n, 10 * n);
             System.out.println("-------------");
             Test.test(n, 100 * n);
-            //System.out.println("-------------");
-            //Test.test(n, 1000 * n);
+            System.out.println("-------------");
+            Test.test(n, 300 * n);
         }
     }
 
